@@ -9,6 +9,7 @@
 #import "MackenzieAppDelegate.h"
 //#import "LetraAViewController.h"
 #import "View.h"
+#import "View2.h"
 
 @implementation MackenzieAppDelegate
 
@@ -20,17 +21,40 @@
 //    
     
     View *viewController = [[View alloc]initWithNibName:nil bundle:nil];
+    //View2 *view2Controller =[[View2 alloc]initWithNibName:nil bundle:nil];
     
+//    
     self.navigationController = [[UINavigationController alloc]
                                  initWithRootViewController:viewController];
-    self.window = [[UIWindow alloc]
-                   initWithFrame:[[UIScreen mainScreen] bounds]];
+    //_navigationController = [[UINavigationController alloc]
+    //                             initWithRootViewController:view2Controller];
+    
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.rootViewController = self.navigationController;
 
-
     
-    self.window.backgroundColor = [UIColor whiteColor];
+     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
+    
+   // UITabBarController *tabBarController = [[UITabBarController alloc] init];
+    
+    //NSArray* controllers = [NSArray arrayWithObjects:viewController, view2Controller, nil];
+    
+    //tabBarController.viewControllers = controllers;
+    
+    //  window.rootViewController = tabBarController;
+//    = [[UITabBarController alloc] init];
+//
+//    MyNavRootViewController* vc4 = [[MyNavRootViewController alloc] init];
+//   UINavigationController* navController = [[UINavigationController alloc]
+//                                             initWithRootViewController:vc4];
+//    
+//    NSArray* controllers = [NSArray arrayWithObjects:vc1, vc2, vc3, navController, nil];
+    //tabBarController.viewControllers = controllers;
+//    
+//    _window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+//    _window.rootViewController = tabBarController;
+   [_window makeKeyAndVisible];
     
     return YES;
 }

@@ -8,6 +8,7 @@
 
 #import "View.h"
 
+
 @interface View ()
 
 @end
@@ -132,7 +133,14 @@
     
     [self.view addSubview:imagemView];
 
+    AVSpeechUtterance *utterance = [[AVSpeechUtterance alloc] initWithString:[palavras objectAtIndex:i]];
+    utterance.voice = [AVSpeechSynthesisVoice voiceWithLanguage:@"pt-BR"];
     
+    utterance.rate = 0.1;
+    
+    
+    AVSpeechSynthesizer *synthesizer = [[AVSpeechSynthesizer alloc] init];
+    [synthesizer speakUtterance:utterance];
     
 //    figura = [UIImage imageNamed:[imagens objectAtIndex:i]];
 //    [botaoImagem setImage:figura forState:UIControlStateNormal];
