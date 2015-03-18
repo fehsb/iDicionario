@@ -48,9 +48,9 @@
 		D45E624F1AB7749A001859F0 /* X.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D45E62351AB7749A001859F0 /* X.jpg */; };
 		D45E62501AB7749A001859F0 /* Y.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D45E62361AB7749A001859F0 /* Y.jpg */; };
 		D45E62511AB7749A001859F0 /* Z.png in Resources */ = {isa = PBXBuildFile; fileRef = D45E62371AB7749A001859F0 /* Z.png */; };
-		D45E62541AB84AC9001859F0 /* View2.m in Sources */ = {isa = PBXBuildFile; fileRef = D45E62531AB84AC9001859F0 /* View2.m */; };
 		D45E62561AB8905B001859F0 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D45E62551AB8905B001859F0 /* AVFoundation.framework */; };
 		D45E62581AB891E9001859F0 /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D45E62571AB891E9001859F0 /* AVKit.framework */; };
+		D45E625B1AB8C43D001859F0 /* Letra.m in Sources */ = {isa = PBXBuildFile; fileRef = D45E625A1AB8C43D001859F0 /* Letra.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -112,10 +112,10 @@
 		D45E62351AB7749A001859F0 /* X.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = X.jpg; path = Images.xcassets/X.jpg; sourceTree = "<group>"; };
 		D45E62361AB7749A001859F0 /* Y.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = Y.jpg; path = Images.xcassets/Y.jpg; sourceTree = "<group>"; };
 		D45E62371AB7749A001859F0 /* Z.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Z.png; path = Images.xcassets/Z.png; sourceTree = "<group>"; };
-		D45E62521AB84AC9001859F0 /* View2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = View2.h; sourceTree = "<group>"; };
-		D45E62531AB84AC9001859F0 /* View2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = View2.m; sourceTree = "<group>"; };
 		D45E62551AB8905B001859F0 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		D45E62571AB891E9001859F0 /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
+		D45E62591AB8C43D001859F0 /* Letra.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Letra.h; sourceTree = "<group>"; };
+		D45E625A1AB8C43D001859F0 /* Letra.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Letra.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -213,10 +213,10 @@
 				27156F7C18BA89430053A99C /* LetraAViewController.m */,
 				27156F7E18BA8B210053A99C /* LetraBViewController.h */,
 				27156F7F18BA8B210053A99C /* LetraBViewController.m */,
+				D45E62591AB8C43D001859F0 /* Letra.h */,
+				D45E625A1AB8C43D001859F0 /* Letra.m */,
 				D45E621B1AB74C76001859F0 /* View.h */,
 				D45E621C1AB74C76001859F0 /* View.m */,
-				D45E62521AB84AC9001859F0 /* View2.h */,
-				D45E62531AB84AC9001859F0 /* View2.m */,
 			);
 			path = Navigation;
 			sourceTree = "<group>";
@@ -372,10 +372,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D45E625B1AB8C43D001859F0 /* Letra.m in Sources */,
 				D45E621D1AB74C76001859F0 /* View.m in Sources */,
 				27156F5D18B76AF50053A99C /* MackenzieAppDelegate.m in Sources */,
 				27156F7D18BA89430053A99C /* LetraAViewController.m in Sources */,
-				D45E62541AB84AC9001859F0 /* View2.m in Sources */,
 				27156F8018BA8B210053A99C /* LetraBViewController.m in Sources */,
 				27156F5918B76AF50053A99C /* main.m in Sources */,
 			);

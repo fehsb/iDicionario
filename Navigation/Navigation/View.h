@@ -11,9 +11,6 @@
 
 @interface View : UIViewController
 
-@property NSArray *letras;
-@property NSArray *palavras;
-@property NSArray *imagens;
-@property int i;
 
+@property int i;
 @end
