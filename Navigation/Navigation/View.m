@@ -23,15 +23,30 @@
     UIBarButtonItem *next;
     UIBarButtonItem *previous;
     Letra *letra;
+    CGPoint startLocation, lastLocation;
     NSArray *views;
+    CGSize sizeImagem;
+    UILongPressGestureRecognizer *lpgr;
+    
+    UIImagePickerController *pick;
 }
 @synthesize i;
 
 
 - (void)viewDidLoad {
     
+    pick = [[UIImagePickerController alloc]init];
     
-    [super viewDidLoad];
+    pick.delegate = self;
+    pick.allowsEditing = YES;
+    
+    lpgr = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(LongPress:)];
+    lpgr.minimumPressDuration = 1.0;
+    
+    [self.view addGestureRecognizer:lpgr];
+    
+    
+        [super viewDidLoad];
     
     next = [[UIBarButtonItem alloc]
             initWithBarButtonSystemItem:UIBarButtonSystemItemFastForward target:self action:@selector(next:)];
@@ -53,7 +68,8 @@
     UIToolbar *toolbar = [[UIToolbar alloc] init];
     toolbar.frame = CGRectMake(0, 70, self.view.frame.size.width, 44);
     UIBarButtonItem *editar = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editar:)];
-    NSArray *items = [[NSArray alloc]initWithObjects:editar, nil];
+    UIBarButtonItem *fotoPick = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemCamera target:self action:@selector(fotoPick:)];
+    NSArray *items = [[NSArray alloc]initWithObjects:editar, fotoPick, nil];
     [toolbar setItems:items animated:YES];
     [self.view addSubview:toolbar];
     
@@ -61,6 +77,7 @@
     
     imagemView =[[UIImageView alloc]initWithFrame:CGRectMake(70, 150, 200, 200)];
     imagemView.image = [UIImage imageNamed:[letra.imagens objectAtIndex:i]];
+    imagemView.userInteractionEnabled = YES;
     
     [self.view addSubview:imagemView];
     
@@ -105,49 +122,10 @@
         [self.navigationController pushViewController:proximo
                                              animated:YES];
         
-        
-        //[self.navigationController pushViewController:proximo
-        //                                     animated:YES];
-        //  completion:^(BOOL finished){ [imagemView removeFromSuperview]; }];
-        
-        //    if (i==25){
-        //        i=-1;
-        //    }
-        //    [titulo setText:[palavras objectAtIndex:i]];
-        //    titulo.textColor = [UIColor blackColor];
-        //    titulo.textAlignment= NSTextAlignmentCenter;
-        //
-        //    figura = [UIImage imageNamed:[imagens objectAtIndex:i]];
-        //    [imagemView setImage:figura];
-        //
-        //
-        //    [proximo.view addSubview:imagemView];
-        //
-        //    [proximo.view addSubview:titulo];
-}
+       }
 
 -(void)previous:(id)sender{
-    //
-    //    [UIView animateWithDuration:0
-    //                     animations:^{imagemView.alpha = 0.0;}];
-    //
-    //    if (i==0){
-    //        i=26;
-    //    }
-    //    i--;
-    //    self.title = [letras objectAtIndex:i];
-    //    [titulo setText:[palavras objectAtIndex:i]];
-    //    titulo.textColor = [UIColor blackColor];
-    //    titulo.textAlignment= NSTextAlignmentCenter;
-    //
-    //    figura = [UIImage imageNamed:[imagens objectAtIndex:i]];
-    //    [imagemView setImage:figura];
-    //    //[imagemView sizeToFit];
-    //    //imagemView.center = self.view.center;
-    //
-    //    [self.view addSubview:imagemView];
-    //
-    AVSpeechUtterance *utterance;
+      AVSpeechUtterance *utterance;
     if (i==0) {
         utterance = [[AVSpeechUtterance alloc] initWithString:[letra.palavras objectAtIndex:i]];
     }else{
@@ -156,21 +134,7 @@
     utterance.rate = 0.1;
     AVSpeechSynthesizer *synthesizer = [[AVSpeechSynthesizer alloc] init];
     [synthesizer speakUtterance:utterance];
-    //
-    //    //    figura = [UIImage imageNamed:[imagens objectAtIndex:i]];
-    //    //    [botaoImagem setImage:figura forState:UIControlStateNormal];
-    //    //    [botaoImagem sizeToFit];
-    //    //    botaoImagem.center = self.view.center;
-    //    //
-    //    //    [self.view addSubview:botaoImagem];
-    //
-    //
-    //    [self.view addSubview:titulo];
-    //
-    //    [UIView animateWithDuration:0.7
-    //                     animations:^{imagemView.alpha = 1.0;}];
-    //
-    //
+    
     if (next.enabled == NO) {
         [next setEnabled:YES];}
     [previous setEnabled:NO];
@@ -214,5 +178,87 @@
     self.resignFirstResponder;
 
 }
+
+-(void)fotoPick:(id)sender
+{
+    UIAlertController* alert = [UIAlertController alertControllerWithTitle:nil
+                                                                   message:nil
+                                                            preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    UIAlertAction *album = [UIAlertAction actionWithTitle:@"Album" style:UIAlertActionStyleDefault
+                                                          handler:^(UIAlertAction *action) {
+                                                         pick.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+                                                        [self presentViewController:pick animated:YES completion:nil];
+                                                          }];
+    
+    UIAlertAction *camera = [UIAlertAction actionWithTitle:@"Camera" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        
+        pick.sourceType = UIImagePickerControllerSourceTypeCamera;
+        [self presentViewController:pick animated:YES completion:nil];
+    
+        
+    }];
+    
+    
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"cancelar" style:UIAlertActionStyleCancel handler:Nil];
+    
+    [alert addAction:cancel];
+    [alert addAction:camera];
+    [alert addAction:album];
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
+-(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
+    [pick dismissViewControllerAnimated:YES completion:nil];
+    UIImage *img = [info objectForKey:UIImagePickerControllerEditedImage];
+    imagemView.image = img;
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    UITouch *touch = [touches anyObject];
+    
+    lastLocation = [touch locationInView: self.view];
+
+}
+
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
+{
+   
+    UITouch *touch = [touches anyObject];
+
+    
+    startLocation = [touch locationInView: self.view];
+    
+    imagemView.center = CGPointMake(startLocation.x,startLocation.y);
+    
+    
+    }
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+
+}
+
+- (void)LongPress:(UILongPressGestureRecognizer *)sender
+{
+    if(lpgr.state == UIGestureRecognizerStateBegan)
+    {
+        [UIView animateWithDuration:2.5
+                            animations:^{
+                                imagemView.transform = CGAffineTransformMakeScale(2, 2);
+                            }];
+            
+    }
+    if (sender.state == UIGestureRecognizerStateEnded) {
+        imagemView.transform = CGAffineTransformMakeScale(1, 1);
+
+    }
+        
+
+}
+
+
+
 
 @end
