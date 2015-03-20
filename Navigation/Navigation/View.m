@@ -8,6 +8,7 @@
 
 #import "View.h"
 #import "Letra.h"
+#import "TableViewController.h"
 
 @interface View ()
 
@@ -15,13 +16,14 @@
 
 @implementation View
 {
-    UILabel *titulo;
+    UITextField *titulo;
     //UIButton *botaoImagem;
     UIImage *figura;
     UIImageView *imagemView;
     UIBarButtonItem *next;
     UIBarButtonItem *previous;
     Letra *letra;
+    NSArray *views;
 }
 @synthesize i;
 
@@ -40,13 +42,22 @@
     
     [next setEnabled:YES];
     [previous setEnabled:YES];
-    
+  
     letra = [[Letra alloc]init];
     
     
     self.view.backgroundColor = [UIColor whiteColor];
     
     self.title = [letra.letras objectAtIndex:i];
+    
+    UIToolbar *toolbar = [[UIToolbar alloc] init];
+    toolbar.frame = CGRectMake(0, 70, self.view.frame.size.width, 44);
+    UIBarButtonItem *editar = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editar:)];
+    NSArray *items = [[NSArray alloc]initWithObjects:editar, nil];
+    [toolbar setItems:items animated:YES];
+    [self.view addSubview:toolbar];
+    
+    self.navigationController.toolbar.hidden = false;
     
     imagemView =[[UIImageView alloc]initWithFrame:CGRectMake(70, 150, 200, 200)];
     imagemView.image = [UIImage imageNamed:[letra.imagens objectAtIndex:i]];
@@ -55,13 +66,13 @@
     
     
     
-    titulo = [[UILabel alloc] initWithFrame:CGRectMake(0,400,self.view.bounds.size.width,50)];
+    titulo = [[UITextField alloc] initWithFrame:CGRectMake(0,400,self.view.bounds.size.width,50)];
     [titulo setText:[letra.palavras objectAtIndex:i]];
     titulo.textColor = [UIColor blackColor];
     titulo.textAlignment= NSTextAlignmentCenter;
-    
+
     [self.view addSubview:titulo];
-    
+    titulo.enabled = NO;
     
     AVSpeechUtterance *utterance = [[AVSpeechUtterance alloc] initWithString:[letra.palavras objectAtIndex:i]];
     utterance.voice = [AVSpeechSynthesisVoice voiceWithLanguage:@"pt-BR"];
@@ -72,7 +83,7 @@
     AVSpeechSynthesizer *synthesizer = [[AVSpeechSynthesizer alloc] init];
     [synthesizer speakUtterance:utterance];
     
-    
+    self.resignFirstResponder;
     
 }
 
@@ -80,10 +91,20 @@
     //    i++;
     
     [next setEnabled:NO];
-    if (self.navigationController.viewControllers.count < 3){
-        View *proximo = [[View alloc]
-                         initWithNibName:nil
-                         bundle:NULL];
+    View *proximo = [[View alloc]
+                     initWithNibName:nil
+                     bundle:NULL];
+
+    if (self.navigationController.viewControllers.count == 3){
+        
+        views = [[NSArray alloc]initWithObjects:self, nil];
+        [self.navigationController setViewControllers:views];
+    }
+         proximo.i = (i+1==25)?0:i+1;
+        
+        [self.navigationController pushViewController:proximo
+                                             animated:YES];
+        
         
         //[self.navigationController pushViewController:proximo
         //                                     animated:YES];
@@ -92,10 +113,6 @@
         //    if (i==25){
         //        i=-1;
         //    }
-        //
-        
-        proximo.i = (i+1==25)?0:i+1;
-        
         //    [titulo setText:[palavras objectAtIndex:i]];
         //    titulo.textColor = [UIColor blackColor];
         //    titulo.textAlignment= NSTextAlignmentCenter;
@@ -107,12 +124,6 @@
         //    [proximo.view addSubview:imagemView];
         //
         //    [proximo.view addSubview:titulo];
-        //
-        //
-        
-        [self.navigationController pushViewController:proximo
-                                             animated:YES];
-    }
 }
 
 -(void)previous:(id)sender{
@@ -163,16 +174,25 @@
     if (next.enabled == NO) {
         [next setEnabled:YES];}
     [previous setEnabled:NO];
-    
+     
     View *anterior = [[View alloc]
                       initWithNibName:nil
                       bundle:NULL];
+    if (self.navigationController.viewControllers.count==3) {
+        views = [[NSArray alloc]initWithObjects:anterior,self, nil];
+        [self.navigationController setViewControllers:views];
+    }
+    if (self.navigationController.viewControllers.count == 1){
+        views = [[NSArray alloc]initWithObjects:anterior,self, nil];
+        [self.navigationController setViewControllers:views];
+    }
     anterior.i = (i-1==0)?25:i-1;
     [self.navigationController popViewControllerAnimated:YES];
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    [self.navigationController setTitle:@"Dicionario"];
     [UIView animateWithDuration:0
                      animations:^{imagemView.alpha = 0.0;}];
     
@@ -184,4 +204,15 @@
                      animations:^{imagemView.alpha = 1.0;}];
     //completion:^(BOOL finished){ [imagemView removeFromSuperview]; }];
 }
+
+-(void)editar:(id)sender
+{
+    if(titulo.enabled){
+        titulo.enabled = NO;
+    }else titulo.enabled = YES;
+    
+    self.resignFirstResponder;
+
+}
+
 @end

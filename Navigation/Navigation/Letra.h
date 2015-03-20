@@ -14,5 +14,4 @@
 @property NSArray *palavras;
 @property NSArray *imagens;
 
-
 @end

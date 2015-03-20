@@ -9,6 +9,7 @@
 #import "MackenzieAppDelegate.h"
 //#import "LetraAViewController.h"
 #import "View.h"
+#import "TableViewController.h"
 
 @implementation MackenzieAppDelegate
 
@@ -17,43 +18,37 @@
 //    LetraAViewController *viewController = [[LetraAViewController alloc]
 //                                           initWithNibName:nil
 //                                           bundle:nil];
-//    
+//
+    UITabBarController *tabBar = [[UITabBarController alloc] init];
+
     
     View *viewController = [[View alloc]initWithNibName:nil bundle:nil];
-    //View2 *view2Controller =[[View2 alloc]initWithNibName:nil bundle:nil];
-    
-//    
+    TableViewController *table = [[TableViewController alloc]initWithNibName:nil bundle:nil];
+   
     self.navigationController = [[UINavigationController alloc]
                                  initWithRootViewController:viewController];
-    //_navigationController = [[UINavigationController alloc]
-    //                             initWithRootViewController:view2Controller];
+    
+    [tabBar addChildViewController:self.navigationController];
+    [tabBar addChildViewController:table];
+    
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.window.rootViewController = self.navigationController;
-
+    self.window.rootViewController = tabBar;
+    
     
      self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     
-   // UITabBarController *tabBarController = [[UITabBarController alloc] init];
-    
-    //NSArray* controllers = [NSArray arrayWithObjects:viewController, view2Controller, nil];
-    
-    //tabBarController.viewControllers = controllers;
-    
-    //  window.rootViewController = tabBarController;
-//    = [[UITabBarController alloc] init];
-//
-//    MyNavRootViewController* vc4 = [[MyNavRootViewController alloc] init];
-//   UINavigationController* navController = [[UINavigationController alloc]
-//                                             initWithRootViewController:vc4];
-//    
-//    NSArray* controllers = [NSArray arrayWithObjects:vc1, vc2, vc3, navController, nil];
-    //tabBarController.viewControllers = controllers;
-//    
-//    _window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-//    _window.rootViewController = tabBarController;
+   
    [_window makeKeyAndVisible];
+    
+    [table setTitle:@"Lista"];
+    [table setTabBarItem:[[UITabBarItem alloc]initWithTabBarSystemItem:UITabBarSystemItemMore tag:0]];
+    [viewController setTabBarItem:[[UITabBarItem alloc]initWithTabBarSystemItem:UITabBarSystemItemTopRated tag:1]];
+    //UIImage *anImage = [UIImage ];
+    //UITabBarItem *theItem = [[UITabBarItem alloc] initWithTitle:@"Lista" image:nil tag:0];
+    
+ 
     
     return YES;
 }
